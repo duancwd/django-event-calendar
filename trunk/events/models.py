@@ -69,7 +69,7 @@ class Event(models.Model):
 	description = models.TextField(blank=True, help_text=u'* Optional.  Give more details on this event (items to bring, links to other sites, etc).')
 	location = models.TextField(blank=True, help_text=u"* Optional.")
 	start = models.DateField(u"Date",
-		help_text=u'When does this event take place?  If the event is longer than one day, enter the start date here and the end date below.')
+		help_text=u'Format: yyyy-mm-dd.  When does this event take place?  If the event is longer than one day, enter the start date here and the end date below.')
 	time = models.CharField(blank=True, max_length=100, help_text=u'* Optional.  Examples: "8 am - 4 pm", "7:30 pm"')
 	end = models.DateField(u'End date', blank=True, null=True, validator_list=[isValidEndDate],
 		help_text=u'* Optional.  If this event is more than one day long, enter the end date here.  Defaults to "start" date if left blank.')
