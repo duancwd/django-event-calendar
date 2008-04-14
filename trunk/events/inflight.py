@@ -6,8 +6,7 @@ ADMIN_REQUIRED = False
 from django.template.defaultfilters import truncatewords_html, striptags
 from events.models import Event
 
-class SearchableEvent(object):
-	
+class SearchableEvent(object):	
 	def get_results(self, keywords):
 		results = []
 		for event in Event.on_site.upcoming():

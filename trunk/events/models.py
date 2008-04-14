@@ -5,9 +5,14 @@ from django.contrib.sites.managers import CurrentSiteManager
 from django.core.validators import ValidationError
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import date as datefilter
+from django.conf import settings
 
 class EventCategory(models.Model):
+	objects = models.Manager()
+	on_site = CurrentSiteManager(field_name='sites')
 	name = models.CharField(max_length=100)
+	sites = models.ManyToManyField(Site)
+	
 	def __unicode__(self):
 		return self.name
 	class Admin:
@@ -73,7 +78,7 @@ class Event(models.Model):
 	time = models.CharField(blank=True, max_length=100, help_text=u'* Optional.  Examples: "8 am - 4 pm", "7:30 pm"')
 	end = models.DateField(u'End date', blank=True, null=True, validator_list=[isValidEndDate],
 		help_text=u'* Optional.  If this event is more than one day long, enter the end date here.  Defaults to "start" date if left blank.')
-	categories = models.ManyToManyField(EventCategory, blank=True, null=True)
+	categories = models.ManyToManyField(EventCategory, blank=True, null=True, limit_choices_to={'sites__id': settings.SITE_ID})
 	sites = models.ManyToManyField(Site)
 	
 	def __unicode__(self):
