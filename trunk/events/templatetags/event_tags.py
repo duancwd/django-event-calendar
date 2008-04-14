@@ -7,9 +7,13 @@ register = template.Library()
 def get_upcoming_events(parser, token):
 	"""
 		{% get_upcoming_events as events %}
-		{% get_upcoming_events as events with num=5 days=180 %}
+		{% get_upcoming_events as events with num=5 days=180 categories=1,13 %}
 		5 = number of events
 		60 = in the next 60 days
+		categories = 
+			- Not supplied (None): any category
+			- 'none' (string): uncategorized
+			- 1,2,3 (string in list): in any of the supplied categories
 	"""
 	bits = token.split_contents()
 	if len(bits) == 3:
@@ -31,13 +35,26 @@ def get_upcoming_events(parser, token):
 	
 class UpcomingEventsNode(template.Node):
 	
-	def __init__(self, varname, num=None, days=None):
+	def __init__(self, varname, num=None, days=None, categories=None):
 		self.varname = varname
 		self.num = num
 		self.days = days
+		if categories is not None and categories.lower() != 'none':
+			self.categories = [ int(c) for c in categories.split(',') ]
+		else:
+			self.categories = categories
+		print 'categories = ', self.categories
 		
 	def render(self, context):
 		events = Event.on_site.upcoming(self.days)
+		print 'self.categories = ', self.categories
+		if self.categories == 'none':
+			# Get only events that have no (null) category.
+			# ick...
+			event_ids = [ e.id for e in events if e.categories.all().count() ==0 ]
+			events = events.filter(id__in=event_ids)
+		elif self.categories is not None and isinstance(self.categories, list):
+			events = events.filter(categories__id__in=self.categories)
 		if self.num is None:
 			context[self.varname] = events
 		else:
