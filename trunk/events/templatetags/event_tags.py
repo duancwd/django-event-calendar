@@ -43,11 +43,9 @@ class UpcomingEventsNode(template.Node):
 			self.categories = [ int(c) for c in categories.split(',') ]
 		else:
 			self.categories = categories
-		print 'categories = ', self.categories
 		
 	def render(self, context):
 		events = Event.on_site.upcoming(self.days)
-		print 'self.categories = ', self.categories
 		if self.categories == 'none':
 			# Get only events that have no (null) category.
 			# ick...

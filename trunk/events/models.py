@@ -62,8 +62,6 @@ def format(d):
 
 def isValidEndDate(field_data, all_data):
 	" Validates that end date is less than (after) the start date. "
-	print 'field_data = ', type(field_data)
-	print 'all_data = ', all_data
 	if field_data:
 		if  date(*[int(v) for v in field_data.split('-')]) <=  date(*[int(v) for v in all_data['start'].split('-')]):
 			raise ValidationError("The end date must be after the start date.  Please select a new end date, or leave blank if this event is only one day long.")
@@ -88,7 +86,6 @@ class Event(models.Model):
 		
 	@models.permalink
 	def get_absolute_url(self):
-		print 'Event.get_absolute_url()'
 		return ('event-detail', (), {'object_id': self.id})
 		
 	def has_passed(self):
