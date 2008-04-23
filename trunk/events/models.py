@@ -97,6 +97,12 @@ class Event(models.Model):
 	def is_mutiple_days(self):
 		return self.end is not None and self.end > self.start
 		
+	def get_next_upcoming(self):
+		try:
+			return Event.on_site.upcoming().filter(start__gte=self.start)[0]
+		except IndexError:
+			return None
+		
 	def date_span(self):
 		if self.end:
 			s = "%s &mdash; %s" % (format(self.start), format(self.end))

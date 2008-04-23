@@ -23,9 +23,9 @@
 	</div>
 	{% endif %}
 	
-	{% if event.get_next_by_start %}
+	{% if event.get_next_upcoming %}
 	<h3>Next event</h3>
-		<a href="{{ event.get_next_by_start.get_absolute_url }}">{{ event.get_next_by_start.name }}, {{ event.get_next_by_start.date_span }} &rarr;</a>
+		<a href="{{ event.get_next_upcoming.get_absolute_url }}">{{ event.get_next_upcoming.name }}, {{ event.get_next_upcoming.date_span }} &rarr;</a>
 	{% endif %}
 	
 	{% if event.get_previous_by_start %}
