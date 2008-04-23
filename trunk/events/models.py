@@ -99,7 +99,7 @@ class Event(models.Model):
 		
 	def get_next_upcoming(self):
 		try:
-			return Event.on_site.upcoming().filter(start__gte=self.start)[0]
+			return Event.on_site.upcoming().filter(start__gte=self.start).exclude(id=self.id)[0]
 		except IndexError:
 			return None
 		
