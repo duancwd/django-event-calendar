@@ -102,6 +102,12 @@ class Event(models.Model):
 			return Event.on_site.upcoming().filter(start__gte=self.start).exclude(id=self.id)[0]
 		except IndexError:
 			return None
+			
+	def get_previous_upcoming(self):
+		try:
+			return Event.on_site.upcoming().filter(start__lte=self.start).exclude(id=self.id)[0]
+		except IndexError:
+			return None
 		
 	def date_span(self):
 		if self.end:

@@ -28,9 +28,9 @@
 		<a href="{{ event.get_next_upcoming.get_absolute_url }}">{{ event.get_next_upcoming.name }}, {{ event.get_next_upcoming.date_span }} &rarr;</a>
 	{% endif %}
 	
-	{% if event.get_previous_by_start %}
+	{% if event.get_previous_upcoming %}
 	<h3>Previous event</h3>
-		<a href="{{ event.get_previous_by_start.get_absolute_url }}">&larr; {{ event.get_previous_by_start.name }}, {{ event.get_previous_by_start.date_span }}</a>
+		<a href="{{ event.get_previous_upcoming.get_absolute_url }}">&larr; {{ event.get_previous_upcoming.name }}, {{ event.get_previous_upcoming.date_span }}</a>
 	{% endif %}
 	
 {% endblock %}
