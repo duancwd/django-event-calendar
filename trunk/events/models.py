@@ -84,7 +84,7 @@ class Event(models.Model):
 	def __unicode__(self):
 		return self.name
 		
-	@models.permalink
+	# @models.permalink
 	def get_absolute_url(self):
 		# return ('event-detail', (), {'object_id': self.id})
 		return u'/events/event-%s/' % self.id
