@@ -13,6 +13,9 @@ class EventCategory(models.Model):
 	name = models.CharField(max_length=100)
 	sites = models.ManyToManyField(Site)
 	
+	def site_list(self):
+		return self.sites.all()
+	
 	def __unicode__(self):
 		return self.name
 	class Meta:
@@ -82,7 +85,7 @@ class Event(models.Model):
 	end = models.DateField(u'End date', blank=True, null=True,
 		help_text=u'* Optional.  If this event is more than one day long, enter the end date here.  Defaults to "start" date if left blank.')
 	categories = models.ManyToManyField(EventCategory, blank=True, null=True, limit_choices_to={'sites__id': settings.SITE_ID})
-	sites = models.ManyToManyField(Site)
+	sites = models.ManyToManyField(Site, editable=False, default=[settings.SITE_ID])
 	
 	def __unicode__(self):
 		return self.name
@@ -97,6 +100,14 @@ class Event(models.Model):
 			return self.end < date.today()
 		else:
 			return self.start < date.today()
+	
+	def category_list(self):
+		if self.categories.all():
+			return ", ".join([ c.name for c in self.categories.all() ])
+		return '(No categories)'
+		
+	def site_list(self):
+		return self.sites.all()
 		
 	def is_mutiple_days(self):
 		return self.end is not None and self.end > self.start
