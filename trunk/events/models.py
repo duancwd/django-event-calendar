@@ -8,6 +8,7 @@ from django.template.defaultfilters import date as datefilter
 from django.conf import settings
 
 class EventCategory(models.Model):
+
 	objects = models.Manager()
 	on_site = CurrentSiteManager(field_name='sites')
 	name = models.CharField(max_length=100)
@@ -18,10 +19,10 @@ class EventCategory(models.Model):
 	
 	def __unicode__(self):
 		return self.name
+		
 	class Meta:
 		verbose_name_plural = u'event categories'
-	class Admin:
-		pass
+
 		
 class EventManager(CurrentSiteManager):	
 
@@ -133,13 +134,6 @@ class Event(models.Model):
 	date_span.short_description = 'date'
 	date_span.admin_order_field = 'start'
 	date_span.allow_tags = True
-		
-	class Admin:
-		list_display = ('name', 'date_span', 'time', 'location',)
-		list_filter = ('start', 'categories')
-		search_fields = ('name', 'location')
-		date_hierarchy = 'start'
-		ordering = ('start',)
 
 	class Meta:
 		ordering = ('-start',)
