@@ -1,7 +1,16 @@
-INFLIGHT_APP_LABEL = 'events'
-TAB_TEXT = "Events"
-TAB_URL = '/inflight/events/'
-ADMIN_REQUIRED = False
+# The Inflight module definition for your module
+from cms import modules
+
+class Events:
+    
+    label = 'events'  # internal
+    urls = 'events.urls'  # urls file gets added to URLs for inflight when module is active
+    tab_text = 'Events'
+    tab_url = '/inflight/events/'
+    admin_required = True   # does the user need to be an admin to access this module?
+    public_url = '^events/'
+    
+modules.site.register(Events, 'events')
 
 from django.template.defaultfilters import truncatewords_html, striptags
 from events.models import Event
