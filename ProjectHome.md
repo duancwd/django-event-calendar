@@ -1,0 +1,1 @@
+A very basic events calendar application for django
